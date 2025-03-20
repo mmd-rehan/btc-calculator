@@ -1,5 +1,5 @@
 {
-  "name": "btc-calculator-pkg",
+  "name": "@phoenix/btc-calculator-pkg",
   "version": "0.0.1",
   "main": "./dis/index.js",
   "module": "./dis/index.mjs",
