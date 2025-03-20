@@ -1,6 +1,6 @@
 {
-  "name": "btc-calculator",
-  "version": "0.0.1",
+  "name": "btc-reward-calculator",
+  "version": "1.0.3",
   "main": "./dis/index.js",
   "module": "./dis/index.mjs",
   "types": "./dis/index.d.ts",
@@ -8,7 +8,8 @@
     "registry": "https://gitlab.com/api/v4/projects/40/packages/npm/"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "clean": "rm -rf ./dis/* && rm -rf node_modules"
   },
   "keywords": [
     "digital mining calculator"
