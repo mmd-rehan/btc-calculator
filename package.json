@@ -1,0 +1,23 @@
+{
+  "name": "btc-calculator-pkg",
+  "version": "0.0.1",
+  "main": "./dis/index.js",
+  "module": "./dis/index.mjs",
+  "types": "./dis/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "digital mining calculator"
+  ],
+  "description": "BTC profitability helper",
+  "license": "ISC",
+  "author": "",
+  "dependencies": {
+    "@mempool/mempool.js": "^3.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2"
+  }
+}
