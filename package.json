@@ -1,9 +1,12 @@
 {
-  "name": "@phoenix/btc-calculator-pkg",
+  "name": "btc-calculator",
   "version": "0.0.1",
   "main": "./dis/index.js",
   "module": "./dis/index.mjs",
   "types": "./dis/index.d.ts",
+  "publishConfig": {
+    "registry": "https://gitlab.com/api/v4/projects/40/packages/npm/"
+  },
   "scripts": {
     "build": "tsup"
   },
