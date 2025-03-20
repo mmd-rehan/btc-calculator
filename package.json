@@ -4,8 +4,10 @@
   "main": "./dis/index.js",
   "module": "./dis/index.mjs",
   "types": "./dis/index.d.ts",
-  "publishConfig": {
-    "registry": "https://gitlab.com/api/v4/projects/40/packages/npm/"
+  "homepage": "https://github.com/mr-muhammad-rehan/btc-calculator.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mr-muhammad-rehan/btc-calculator.git"
   },
   "scripts": {
     "build": "tsup"
