@@ -8,48 +8,66 @@ const TERAHASHES_TO_HASHES = 1e12;
 const DIFFICULTY_FACTOR = 2 ** 32;
 
 export class NetworkService {
+    private readonly mempoolInstance = mempool();
     private readonly BLOCKS;
+    private currentDifficulty: number | undefined;
+    private initPromise: Promise<void>;
 
     constructor() {
-        const mempoolInstance = mempool();
-        if (!mempoolInstance?.bitcoin?.blocks) {
+        // Validate and initialize the mempool client
+        if (!this.mempoolInstance?.bitcoin?.blocks) {
             throw new Error('Failed to initialize mempool client');
         }
-        this.BLOCKS = mempoolInstance.bitcoin.blocks;
+        this.BLOCKS = this.mempoolInstance.bitcoin.blocks;
+        this.initPromise = this.initializeDifficulty();
     }
 
     /**
-     * Retrieves the current network difficulty from the latest block.
-     * @returns {Promise<number>} The network difficulty.
-     * @throws {Error} If the difficulty cannot be retrieved.
+     * Initializes the network difficulty by fetching the latest block's difficulty.
+     * Sets this.currentDifficulty or undefined on failure.
      */
-    public async getNetworkDifficulty(): Promise<number> {
+    private async initializeDifficulty(): Promise<void> {
         try {
             const blockHash = await this.BLOCKS.getBlocksTipHash();
             const block = await this.BLOCKS.getBlock({ hash: blockHash });
-            return block.difficulty;
+            this.currentDifficulty = block.difficulty;
         } catch (error) {
-            console.error('Failed to retrieve network difficulty:', error);
-            throw new Error('Unable to retrieve network difficulty');
+            console.error('Failed to initialize network difficulty:', error);
+            this.currentDifficulty = undefined; // Avoid using 0 to prevent invalid calculations
         }
+    }
+
+    /**
+     * Retrieves the current network difficulty.
+     * @returns {Promise<number>} The network difficulty.
+     * @throws {Error} If difficulty is not available.
+     */
+    public async getNetworkDifficulty(): Promise<number> {
+        await this.initPromise;
+        if (this.currentDifficulty === undefined) {
+            throw new Error('Network difficulty initialization failed');
+        }
+        return this.currentDifficulty;
     }
 
     /**
      * Estimates daily Bitcoin earnings for a miner based on hashrate.
      * @param {number} minerHashrateTHs - Miner hashrate in TH/s (default: 100).
-     * @param {number} numberOfSecondsPerDay - Seconds in a day (default: 86400).
      * @returns {Promise<number>} Estimated earnings in BTC per day.
      * @throws {Error} If calculation dependencies fail.
      */
     public async getEstimatedEarningsPerDay(minerHashrateTHs: number = 100): Promise<number> {
+        await this.initPromise; // Ensure difficulty is initialized
+        if (this.currentDifficulty === undefined) {
+            throw new Error('Network difficulty is not available');
+        }
+
         const lastEightBlocks = await this.getLastEightBlocks();
         const avgTotalRewardBTC = this.getAvgTotalRewardBTC(lastEightBlocks);
-        const difficulty = await this.getNetworkDifficulty(); 
-
         const minerHashrateHs = minerHashrateTHs * TERAHASHES_TO_HASHES;
         const bitcoinPerDay =
             (minerHashrateHs * avgTotalRewardBTC * SECONDS_PER_DAY) /
-            (difficulty * DIFFICULTY_FACTOR);
+            (this.currentDifficulty * DIFFICULTY_FACTOR);
 
         return bitcoinPerDay;
     }
@@ -80,7 +98,7 @@ export class NetworkService {
                 lastEightBlocks.push(block);
             } catch (error) {
                 console.error(`Failed to fetch block ${i + 1}:`, error);
-                throw new Error(`Unable to fetch block at height ${i + 1}`);
+                throw new Error(`Unable to fetch block at position ${i + 1}`);
             }
         }
 

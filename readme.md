@@ -1,11 +1,12 @@
-# btc-calculator
+# btc-reward-calculator
 
-`btc-calculator` is a TypeScript-based utility that fetches Bitcoin network difficulty and estimates miner earnings based on hashrate. It utilizes `@mempool/mempool.js` to retrieve blockchain data and calculate potential mining rewards.
+`btc-reward-calculator` is a TypeScript-based utility that fetches Bitcoin network difficulty, estimates miner earnings based on hashrate, and fetches Bitcoin prices in various currencies. It utilizes `@mempool/mempool.js` to retrieve blockchain data and calculate potential mining rewards.
 
 ## Features
 - Fetches Bitcoin network difficulty from the latest block.
 - Estimates daily mining rewards based on given hashrate.
 - Uses the last eight blocks to calculate an average reward estimate.
+- Fetches real-time Bitcoin prices in various currencies.
 
 ## Installation
 
@@ -20,7 +21,7 @@ npm install @mempool/mempool.js
 ### Importing the Service
 
 ```typescript
-import { getDifficulty, getBitcoinRewardPerDay } from "./btc-calculator";
+import { getDifficulty, getBitcoinRewardPerDay, getBitcoinPrice } from "./btc-reward-calculator";
 ```
 
 ### Fetching Bitcoin Network Difficulty
@@ -50,6 +51,19 @@ import { getDifficulty, getBitcoinRewardPerDay } from "./btc-calculator";
 })();
 ```
 
+### Fetching Bitcoin Price
+
+```typescript
+(async () => {
+    try {
+        const prices = await getBitcoinPrice();
+        console.log("Bitcoin Prices:", prices);
+    } catch (error) {
+        console.error("Error fetching Bitcoin prices:", error);
+    }
+})();
+```
+
 ## API Reference
 
 ### `getDifficulty(): Promise<number>`
@@ -73,13 +87,23 @@ const earnings = await getBitcoinRewardPerDay(120);
 console.log(`Estimated earnings: ${earnings} BTC`);
 ```
 
+### `getBitcoinPrice(): Promise<CurrencyRates>`
+Fetches the current Bitcoin price in various currencies.
+
+#### Example
+```typescript
+const prices = await getBitcoinPrice();
+console.log(prices);
+```
+
 ## Implementation Details
 - Uses `@mempool/mempool.js` to fetch blockchain data.
 - Retrieves the last eight blocks to calculate an average block reward.
 - Computes miner earnings using difficulty, hashrate, and block rewards.
+- Fetches real-time Bitcoin prices from Mempool.space API.
 
 ## Error Handling
 - Logs errors to console and throws exceptions when network issues occur.
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the ISC License.

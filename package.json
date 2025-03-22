@@ -1,18 +1,22 @@
 {
-  "name": "btc-calculator",
-  "version": "0.0.1",
-  "main": "./dis/index.js",
-  "module": "./dis/index.mjs",
-  "types": "./dis/index.d.ts",
-  "publishConfig": {
-    "registry": "https://gitlab.com/api/v4/projects/40/packages/npm/"
-  },
+  "name": "btc-reward-calculator",
+  "version": "2.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "clean": "rm -rf build && rm -rf node_modules && rm -rf package-lock.json && npm install"
   },
   "keywords": [
     "digital mining calculator"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "description": "BTC profitability helper",
   "license": "ISC",
   "author": "",
