@@ -1,13 +1,14 @@
 {
   "name": "btc-reward-calculator",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "clean": "rm -rf build && rm -rf node_modules && rm -rf package-lock.json && npm install",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "standard-version"
   },
   "publishConfig": {
     "access": "public"
@@ -28,6 +29,7 @@
     "@mempool/mempool.js": "^3.0.0"
   },
   "devDependencies": {
+    "standard-version": "^9.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
   }
