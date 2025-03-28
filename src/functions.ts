@@ -12,9 +12,9 @@ export async function getDifficulty() {
     }
 }
 
-export async function getBitcoinRewardPerDay(minerHashrateTHs?: number) {
+export async function getBitcoinRewardPerDay(minerHashrateTHs?: number, networkDifficulty?: number) {
     try {
-        return await networkService.getEstimatedEarningsPerDay(minerHashrateTHs)
+        return await networkService.getEstimatedEarningsPerDay(minerHashrateTHs, networkDifficulty)
     } catch (error) {
         console.error("Failed to fetch bitcoin per day:", error);
         throw error;

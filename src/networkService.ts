@@ -56,12 +56,16 @@ export class NetworkService {
      * @returns {Promise<number>} Estimated earnings in BTC per day.
      * @throws {Error} If calculation dependencies fail.
      */
-    public async getEstimatedEarningsPerDay(minerHashrateTHs: number = 100): Promise<number> {
-        await this.initPromise; // Ensure difficulty is initialized
-        if (this.currentDifficulty === undefined) {
-            throw new Error('Network difficulty is not available');
+    public async getEstimatedEarningsPerDay(minerHashrateTHs: number = 100, networkDifficulty?: number): Promise<number> {
+        if (networkDifficulty) {
+            this.currentDifficulty = networkDifficulty;
+        } else {
+            await this.initPromise;
+            if (this.currentDifficulty === undefined) {
+                throw new Error('Network difficulty is not available');
+            }
         }
-
+        
         const lastEightBlocks = await this.getLastEightBlocks();
         const avgTotalRewardBTC = this.getAvgTotalRewardBTC(lastEightBlocks);
         const minerHashrateHs = minerHashrateTHs * TERAHASHES_TO_HASHES;
