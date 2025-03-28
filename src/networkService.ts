@@ -97,13 +97,9 @@ export class NetworkService {
         let currentHash = await this.BLOCKS.getBlocksTipHash();
 
         for (let i = 0; i < 8; i++) {
-            try {
-                const block = await this.BLOCKS.getBlock({ hash: currentHash });
-                lastEightBlocks.push(block);
-            } catch (error) {
-                console.error(`Failed to fetch block ${i + 1}:`, error);
-                throw new Error(`Unable to fetch block at position ${i + 1}`);
-            }
+            const block = await this.BLOCKS.getBlock({ hash: currentHash });
+            lastEightBlocks.push(block);
+            currentHash = block.previousblockhash;
         }
 
         return lastEightBlocks;
