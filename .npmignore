@@ -42,3 +42,6 @@ src/
 yarn.lock
 tsconfig.json
 tsup.config.ts
+
+#Pipeline files
+.github
