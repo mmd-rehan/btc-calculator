@@ -1,9 +1,16 @@
 {
   "name": "btc-reward-calculator",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "description": "BTC profitability helper",
+  "author": "Muhammad Rehan <mrmuhammadrehan65@gmail.com> (mmd-rehan.github.io)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mmd-rehan/btc-calculator.git"
+  },
+  "url": "https://github.com/mmd-rehan/btc-calculator.git",
   "scripts": {
     "build": "tsup",
     "clean": "rm -rf build && rm -rf node_modules && rm -rf package-lock.json && npm install",
@@ -14,7 +21,7 @@
     "access": "public"
   },
   "keywords": [
-    "digital mining calculator"
+    "digital mining calculator, btc mining profitability "
   ],
   "exports": {
     ".": {
@@ -22,15 +29,13 @@
       "require": "./dist/index.js"
     }
   },
-  "description": "BTC profitability helper",
-  "license": "ISC",
-  "author": "",
   "dependencies": {
-    "@mempool/mempool.js": "^3.0.0"
+    "@mempool/mempool.js": "github:mmd-rehan/mempool.js"
   },
   "devDependencies": {
     "standard-version": "^9.5.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2"
-  }
+  },
+  "license": "ISC"
 }
